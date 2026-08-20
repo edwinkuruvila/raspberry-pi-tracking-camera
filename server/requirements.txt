@@ -1,0 +1,7 @@
+ai-edge-litert==1.4.0
+fastapi==0.115.6
+httpx==0.28.1
+numpy==1.26.4
+opencv-python-headless==4.11.0.86
+pigpio==1.78
+uvicorn[standard]==0.34.0

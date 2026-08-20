@@ -1,0 +1,55 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      ROOMCAM_STREAM_HEALTH_URL: ${ROOMCAM_STREAM_HEALTH_URL}
+      ROOMCAM_STREAM_UPSTREAM: ${ROOMCAM_STREAM_UPSTREAM}
+      ROOMCAM_STREAM_PATH: ${ROOMCAM_STREAM_PATH}
+      ROOMCAM_PUBLIC_STREAM_URL: ${ROOMCAM_PUBLIC_STREAM_URL}
+      ROOMCAM_ALLOWED_HOSTS: ${ROOMCAM_ALLOWED_HOSTS}
+      ROOMCAM_AUTH_PASSWORD_HASH: ${ROOMCAM_AUTH_PASSWORD_HASH}
+      ROOMCAM_DETECTION_ENABLED: ${ROOMCAM_DETECTION_ENABLED}
+      ROOMCAM_DETECTION_SOURCE: ${ROOMCAM_DETECTION_SOURCE}
+      ROOMCAM_DETECTION_MODEL: ${ROOMCAM_DETECTION_MODEL}
+      ROOMCAM_DETECTION_CONFIDENCE: ${ROOMCAM_DETECTION_CONFIDENCE}
+      ROOMCAM_DETECTION_THREADS: ${ROOMCAM_DETECTION_THREADS}
+    network_mode: host
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - ${ROOMCAM_BIND_HOST}
+      - --port
+      - "8080"
+      - --limit-concurrency
+      - "32"
+      - --backlog
+      - "64"
+      - --timeout-keep-alive
+      - "5"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health', timeout=2)"
+      interval: 60s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    restart: unless-stopped

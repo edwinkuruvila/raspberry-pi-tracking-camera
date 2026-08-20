@@ -1,0 +1,81 @@
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-panel {
+  width: min(100%, 340px);
+}
+
+.login-title {
+  margin: 0 0 28px;
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-weight: 450;
+  letter-spacing: -0.04em;
+}
+
+.login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
+  border: 1px solid #56302d;
+  border-radius: 5px;
+  background: #261817;
+  color: #e99a93;
+  font-size: 0.78rem;
+}
+
+.login-field {
+  display: grid;
+  gap: 7px;
+  color: #c9cdc7;
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+
+.login-field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #353936;
+  border-radius: 5px;
+  background: #151716;
+  color: #eef0ec;
+}
+
+.login-field input::placeholder {
+  color: #737871;
+}
+
+.login-field input:disabled {
+  opacity: 0.55;
+}
+
+.login-button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 5px;
+  background: #d7d8d6;
+  color: #151615;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.login-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.login-button:focus-visible,
+.login-field input:focus-visible {
+  outline: 2px solid #b8bab8;
+  outline-offset: 2px;
+}

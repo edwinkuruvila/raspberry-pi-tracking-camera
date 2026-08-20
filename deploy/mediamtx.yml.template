@@ -1,0 +1,63 @@
+logLevel: info
+logDestinations: [stdout]
+
+authMethod: internal
+authInternalUsers:
+  # Signaling is available only through the authenticated room-camera proxy.
+  - user: any
+    pass:
+    ips: ["127.0.0.1", "::1"]
+    permissions:
+      - action: read
+        path: roomcam
+      - action: read
+        path: roomcam-detection
+
+# Disable every protocol and administration endpoint that this app does not use.
+api: false
+metrics: false
+pprof: false
+playback: false
+rtsp: true
+rtspAddress: 127.0.0.1:8554
+rtspTransports: [tcp]
+rtmp: false
+hls: false
+srt: false
+moq: false
+
+webrtc: true
+webrtcAddress: 127.0.0.1:8889
+webrtcEncryption: false
+webrtcAllowOrigins: ["https://__MAGICDNS_NAME__"]
+webrtcLocalUDPAddress: __TAILSCALE_IP__:8189
+webrtcLocalTCPAddress: ""
+webrtcIPsFromInterfaces: false
+webrtcAdditionalHosts: [__TAILSCALE_IP__]
+webrtcICEServers2: []
+
+paths:
+  roomcam:
+    # Primary stream: high-quality hardware H.264 for the browser.
+    source: rpiCamera
+    sourceOnDemand: false
+    rpiCameraWidth: 1280
+    rpiCameraHeight: 720
+    rpiCameraFPS: 15
+    rpiCameraDenoise: cdn_fast
+    rpiCameraCodec: hardwareH264
+    rpiCameraIDRPeriod: 15
+    rpiCameraBitrate: 2500000
+    rpiCameraH264Profile: baseline
+    rpiCameraH264Level: "4.0"
+
+  roomcam-detection:
+    # Secondary stream: the same sensor, downscaled before encoding so the
+    # detector never decodes and discards the 720p/15 FPS browser stream.
+    source: rpiCamera
+    rpiCameraSecondary: true
+    rpiCameraWidth: 384
+    rpiCameraHeight: 216
+    rpiCameraFPS: 8
+    rpiCameraCodec: mjpeg
+    rpiCameraMJPEGQuality: 40

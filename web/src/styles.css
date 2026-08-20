@@ -1,0 +1,377 @@
+.camera-shell {
+  width: min(100%, 1600px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px clamp(16px, 3vw, 42px) 32px;
+}
+
+.camera-header {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.utility-button {
+  width: 34px;
+  height: 34px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #969b94;
+  cursor: pointer;
+  transition:
+    color 120ms ease,
+    background 120ms ease;
+  list-style: none;
+}
+
+.utility-button::-webkit-details-marker {
+  display: none;
+}
+
+.utility-button:hover {
+  color: #f1f3ef;
+  background: #1a1c1b;
+}
+
+.utility-button:focus-visible,
+.control-button:focus-visible,
+.camera-menu-item:focus-visible {
+  outline: 2px solid #b8bab8;
+  outline-offset: 2px;
+}
+
+.camera-menu {
+  position: relative;
+}
+
+.camera-menu-dropdown {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 5px);
+  right: 0;
+  width: 170px;
+  overflow: hidden;
+  padding: 5px;
+  border: 1px solid #303331;
+  border-radius: 5px;
+  background: #171918;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.camera-menu-label {
+  padding: 7px 9px;
+  color: #777d76;
+  font-size: 0.68rem;
+}
+
+.camera-menu-item {
+  width: 100%;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #e99a93;
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.camera-menu-item:hover {
+  background: #24201f;
+}
+
+.camera-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 208px;
+  gap: clamp(14px, 2vw, 24px);
+  align-items: start;
+}
+
+.stream-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  border: 1px solid #282b29;
+  border-radius: 3px;
+  background: #020303;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+
+.stream-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.stream-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.detection-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.detection-dead-zone {
+  position: absolute;
+  left: 38%;
+  top: 35%;
+  width: 24%;
+  height: 30%;
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+}
+
+.detection-box {
+  position: absolute;
+  left: var(--box-left);
+  top: var(--box-top);
+  width: var(--box-width);
+  height: var(--box-height);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+  transition:
+    left 100ms linear,
+    top 100ms linear,
+    width 100ms linear,
+    height 100ms linear;
+  will-change: left, top, width, height;
+}
+
+.detection-box[data-selected] {
+  border-color: #f4f6f2;
+}
+
+.detection-box span {
+  position: absolute;
+  bottom: 100%;
+  left: -2px;
+  padding: 2px 5px;
+  background: #f4f6f2;
+  color: #111;
+  font-size: 0.68rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.detection-target {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    left 100ms linear,
+    top 100ms linear;
+}
+
+.control-sidebar {
+  display: grid;
+  gap: 24px;
+}
+
+.control-panel {
+  padding: 4px 0 0;
+}
+
+.detection-panel {
+  display: grid;
+  gap: 9px;
+  padding-top: 18px;
+  border-top: 1px solid #232624;
+}
+
+.follow-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  border: 1px solid #343936;
+  border-radius: 6px;
+  background: #171a18;
+  color: #d8dcd6;
+  cursor: pointer;
+}
+
+.follow-button[data-active] {
+  border-color: #9cab9d;
+  background: #d7d8d6;
+  color: #151615;
+}
+
+.follow-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.detection-readout {
+  color: #929890;
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  gap: 7px;
+}
+
+.control-button {
+  display: grid;
+  place-items: center;
+  border: 1px solid #292d2a;
+  border-radius: 6px;
+  background: #151716;
+  color: #d8dcd6;
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
+}
+
+.control-button:hover {
+  background: #1e211f;
+  border-color: #3b403c;
+}
+
+.control-button:active {
+  transform: translateY(1px);
+  background: #242824;
+}
+
+.control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.32;
+}
+
+.control-button[data-command="center"] {
+  background: #d7d8d6;
+  border-color: #d7d8d6;
+  color: #151615;
+}
+
+.control-button[data-command="center"]:hover {
+  background: #ecedeb;
+}
+
+.control-readout {
+  margin-top: 18px;
+  padding-top: 13px;
+  border-top: 1px solid #232624;
+}
+
+.control-readout-values {
+  display: grid;
+  gap: 4px;
+  color: #929890;
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.control-error,
+.stream-detail {
+  margin-top: 14px;
+  color: #e99a93;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.empty-state {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 28px;
+  color: #8f958e;
+  text-align: center;
+}
+
+.empty-state strong {
+  color: #d8dcd6;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.empty-state p {
+  max-width: 430px;
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.connecting-mark {
+  width: 26px;
+  height: 2px;
+  overflow: hidden;
+  background: #252825;
+}
+
+.connecting-mark::after {
+  content: "";
+  display: block;
+  width: 45%;
+  height: 100%;
+  background: #aeb7ad;
+  animation: connect 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes connect {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+
+@media (max-width: 760px) {
+  .camera-shell {
+    padding-inline: 12px;
+  }
+
+  .camera-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .stream-frame {
+    min-height: 230px;
+  }
+
+  .control-panel {
+    display: grid;
+    justify-content: center;
+    padding-top: 8px;
+  }
+
+  .control-sidebar {
+    justify-content: center;
+  }
+
+  .control-readout {
+    width: 182px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connecting-mark::after {
+    animation: none;
+  }
+}
